@@ -1,0 +1,28 @@
+version: "3"
+services:
+
+  odinfr:
+    image: odin-run:latest
+    container_name: odin-fr
+    ipc: shareable
+    ports:
+      - "5000-5002"
+      - "8989-8990/udp"
+    networks:
+      - odin-net
+    entrypoint: "frameReceiver -t DummyUDP --path /usr/local/lib/ --sharedbuf FrameReceiverBuffer1"  
+  
+  odinfp:
+    depends_on: 
+      - odinfr
+    image: odin-run:latest
+    container_name: odin-fp
+    ipc: container:odin-fr
+    ports:
+      - "5004"
+    networks:
+      - odin-net
+    entrypoint: "frameProcessor -d Dummy --ctrl tcp://odinfr:5000 --ready tcp://odinfr:5001 --release tcp://odinfr:5002"
+
+networks:
+  odin-net:
