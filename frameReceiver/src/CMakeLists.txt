@@ -9,7 +9,7 @@ file(GLOB LIB_SOURCES FrameDecoder.cpp)
 # Add library for common plugin code
 add_library(${LIB_RECEIVER} SHARED ${LIB_SOURCES})
 target_link_libraries(${LIB_RECEIVER} ${Boost_LIBRARIES} ${LOG4CXX_LIBRARIES} ${ZEROMQ_LIBRARIES} ${COMMON_LIBRARY})
-install(TARGETS ${LIB_RECEIVER} DESTINATION lib)
+install(TARGETS ${LIB_RECEIVER} DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 file(GLOB APP_SOURCES FrameReceiverApp.cpp
                       FrameReceiverController.cpp
@@ -21,8 +21,8 @@ add_executable(frameReceiver ${APP_SOURCES})
 
 target_link_libraries(frameReceiver ${LIB_RECEIVER} ${COMMON_LIBRARY} ${Boost_LIBRARIES} ${LOG4CXX_LIBRARIES} ${ZEROMQ_LIBRARIES})
 
-install(TARGETS frameReceiver RUNTIME DESTINATION bin)
+install(TARGETS frameReceiver RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 add_library(DummyUDPFrameDecoder SHARED DummyUDPFrameDecoder.cpp DummyUDPFrameDecoderLib.cpp)
 target_link_libraries(DummyUDPFrameDecoder ${LIB_RECEIVER} ${COMMON_LIBRARY} ${Boost_LIBRARIES} ${LOG4CXX_LIBRARIES} ${ZEROMQ_LIBRARIES})
-install(TARGETS DummyUDPFrameDecoder DESTINATION lib)
+install(TARGETS DummyUDPFrameDecoder DESTINATION ${CMAKE_INSTALL_LIBDIR})

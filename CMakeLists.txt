@@ -3,6 +3,7 @@ project(OdinData)
 
 # Require CMake version >=2.8
 cmake_minimum_required(VERSION 2.8)
+include(GNUInstallDirs)
 
 # set version based on git tags/state
 find_package(Git REQUIRED)
