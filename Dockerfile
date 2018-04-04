@@ -25,7 +25,8 @@ FROM odin-dev as build
 
 WORKDIR /src/
 
-RUN git clone https://github.com/ulrikpedersen/odin-data.git &&\
+ARG BRANCH=master
+RUN git clone -b ${BRANCH} https://github.com/ulrikpedersen/odin-data.git &&\
     mkdir -p /src/build-odin-data && cd /src/build-odin-data &&\
     cmake /src/odin-data/ &&\
     make &&\
