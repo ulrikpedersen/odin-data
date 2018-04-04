@@ -4,6 +4,9 @@ project(OdinData)
 # Require CMake version >=2.8
 cmake_minimum_required(VERSION 2.8)
 
+# This software version
+set(VERSION "0.3.0")
+
 # Set output directories
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -125,3 +128,17 @@ add_subdirectory(doc)
 
 # Add the config subdirectory (config files used for integration testing)
 add_subdirectory(config)
+
+SET(CPACK_GENERATOR "RPM")
+set(CPACK_PACKAGE_NAME "odin-data")
+set(CPACK_PACKAGE_CONTACT "Ulrik Pedersen")
+set(CPACK_PACKAGE_VENDOR "Diamond Light Source")
+set(CPACK_RPM_PACKAGE_LICENSE "Apache2")
+set(CPACK_RPM_PACKAGE_GROUP "Data Acquisition")
+set(CPACK_PACKAGE_VERSION ${VERSION})
+set(CPACK_PACKAGE_RELEASE 1)
+set(CPACK_RPM_PACKAGE_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
+set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_PACKAGE_RELEASE}.el7.${CPACK_RPM_PACKAGE_ARCHITECTURE}")
+set(CPACK_RPM_PACKAGE_REQUIRES "boost >= 1.53, zeromq3 >= 3.2.5, log4cxx >= 0.10.0")
+
+INCLUDE(CPack)
