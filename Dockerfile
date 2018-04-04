@@ -32,7 +32,7 @@ RUN git clone -b ${BRANCH} https://github.com/ulrikpedersen/odin-data.git &&\
     make &&\
     ./bin/frameReceiverTest &&\
     ./bin/frameProcessorTest &&\
-    make package &&\
+    make package && mv *.rpm .. &&\
     yum -y localinstall odin-data*.rpm &&\
     rm -rf odin-data/.git/ &&\
     rm -rf /src/build*
@@ -41,10 +41,9 @@ RUN git clone -b ${BRANCH} https://github.com/ulrikpedersen/odin-data.git &&\
 FROM centos:7 as run
 
 WORKDIR /root
-
+COPY --from=build /src/odin-data*.rpm /root/
+COPY --from=build /usr/local/ /usr/local/
 RUN yum -y update &&\
-    yum install -y boost log4cxx epel-release &&\
-    yum install -y zeromq3 &&\
+    yum -y install epel-release &&\
+    yum -y localinstall odin-data*.rpm &&\
     yum -y clean all && rm -rf /var/cache/yum
-
-COPY --from=build /usr/local /usr/local/
