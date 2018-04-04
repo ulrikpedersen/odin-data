@@ -31,7 +31,8 @@ RUN git clone https://github.com/ulrikpedersen/odin-data.git &&\
     make &&\
     ./bin/frameReceiverTest &&\
     ./bin/frameProcessorTest &&\
-    make install &&\
+    make package &&\
+    yum -y localinstall odin-data*.rpm &&\
     rm -rf odin-data/.git/ &&\
     rm -rf /src/build*
 
