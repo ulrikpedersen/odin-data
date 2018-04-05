@@ -1,4 +1,4 @@
-FROM centos:7 as base
+FROM centos:7 as build
 
 # Set the working directory to /app
 WORKDIR /src
@@ -19,9 +19,6 @@ RUN yum -y update && yum -y clean all &&\
         mkdir -p /src/build-blosc && cd /src/build-blosc &&\
         cmake /src/c-blosc-1.14.2/ && make >> /src/bloscbuild.log 2>&1 && make install &&\
     cd / && rm -rf /src/build* /src/*.tar*
-
-
-FROM odin-dev as build
 
 WORKDIR /src/
 
