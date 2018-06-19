@@ -7,7 +7,7 @@ Development
 To build the development image with the basic dependencies installed and the odin-data cloned and built
 on a named branch (optional using --build-arg, default is master)
 
-```docker build --target build --build-arg BRANCH=docker -t odin-dev .```
+```docker build --target build -t odin-dev .```
 
 The image can be run either with the built-in clone of odin-data - or overridden by a local clone on the
 host-machine, like this: (remove the -v option-arg to use image built-in clone)
@@ -20,7 +20,7 @@ Runtime
 
 Build the small run-time image 'odin-run' with this docker invocation (the --build-arg BRANCH is optional):
 
-```docker build --build-arg BRANCH=docker -t odin-run .```
+```docker build -t odin-run .```
 
 Then run the image interactively with:
 

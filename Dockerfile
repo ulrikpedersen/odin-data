@@ -1,3 +1,11 @@
+# README - how to use this file
+# In order to build the docker images for development (i.e. build stage) or
+# the light-weight run-time image (i.e. run stage) you must map a local copy
+# of the odin-data sources into the image /src/odin-data 
+# This is achieved by adding a copy of the host . dir into the image in /src/odin-data/
+# When running the development image (build stage) you must map the host odin-data dir
+# into /src/odin-data/ using the -v flag to docker run.
+
 FROM centos:7 as build
 
 # Set the working directory to /app
@@ -20,11 +28,14 @@ RUN yum -y update && yum -y clean all &&\
         cmake /src/c-blosc-1.14.2/ && make >> /src/bloscbuild.log 2>&1 && make install &&\
     cd / && rm -rf /src/build* /src/*.tar*
 
+
 WORKDIR /src/
 
-ARG BRANCH
-RUN echo odin-data branch: ${BRANCH} &&\
-    rm -rf odin-data && git clone -b ${BRANCH} https://github.com/ulrikpedersen/odin-data.git &&\
+# Copy the host . dir into src/odin-data
+ADD . /src/odin-data
+
+RUN git --git-dir=/src/odin-data/.git --work-tree=/src/odin-data/ branch &&\
+    git --git-dir=/src/odin-data/.git --work-tree=/src/odin-data/ remote -v &&\
     mkdir -p /src/build-odin-data && cd /src/build-odin-data &&\
     cmake /src/odin-data/ &&\
     make &&\
