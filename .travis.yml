@@ -5,5 +5,8 @@ services:
  - docker
 
 install:
- - docker build --build-arg BRANCH=$TRAVIS_BRANCH -t odin-run .
+ - docker build --build-arg BRANCH=${TRAVIS_BRANCH} -t odin-run .
 
+script:
+ - docker run odin-run ls /root
+ - docker run odin-run frameReceiver --help
