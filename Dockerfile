@@ -25,14 +25,15 @@ FROM odin-dev as build
 
 WORKDIR /src/
 
-ARG BRANCH=master
-RUN git clone -b ${BRANCH} https://github.com/ulrikpedersen/odin-data.git &&\
+ARG BRANCH
+RUN echo odin-data branch: ${BRANCH} &&\
+    rm -rf odin-data && git clone -b ${BRANCH} https://github.com/ulrikpedersen/odin-data.git &&\
     mkdir -p /src/build-odin-data && cd /src/build-odin-data &&\
     cmake /src/odin-data/ &&\
     make &&\
     ./bin/frameReceiverTest &&\
     ./bin/frameProcessorTest &&\
-    make package && mv *.rpm .. &&\
+    make package && mv *.rpm .. && cd .. &&\
     yum -y localinstall odin-data*.rpm &&\
     rm -rf odin-data/.git/ &&\
     rm -rf /src/build*
