@@ -1,3 +1,32 @@
+Basic docker commands:
+
+
+Development
+===========
+
+To build the development image with the basic dependencies installed and the odin-data cloned and built
+on a named branch (optional using --build-arg, default is master)
+
+```docker build --target build --build-arg BRANCH=docker -t odin-dev .```
+
+The image can be run either with the built-in clone of odin-data - or overridden by a local clone on the
+host-machine, like this: (remove the -v option-arg to use image built-in clone)
+
+Run the development image with a local clone of Odin-data in cwd:
+```docker run --rm -it -v `pwd`:/src/odin-data/ odin-dev``` 
+
+Runtime
+=======
+
+Build the small run-time image 'odin-run' with this docker invocation (the --build-arg BRANCH is optional):
+
+```docker build --build-arg BRANCH=docker -t odin-run .```
+
+Then run the image interactively with:
+
+```docker run --rm -it odin-run```
+
+Read on for more complex combinations of FR and FP images, with SHM IPC etc...
 
 Getting the containers to share IPC SHM is trivial, using the 'run --ipc' option:
 
